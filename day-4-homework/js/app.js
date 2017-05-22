@@ -118,6 +118,32 @@ class Megaroster {
       .querySelector('button.move-down')
       .addEventListener('click', this.moveDown.bind(this, student))
 
+    li
+      .querySelector('button.edit')
+      .addEventListener('click', this.edit.bind(this, student))
+
+  }
+
+  edit(student, ev) {
+    let editField = document.getElementById(`input-${student.id}`)
+    const btn = ev.target
+    const li = btn.closest('.student')
+
+    if(editField === null){
+      const input = document.createElement('input')
+      input.id = `input-${student.id}`
+      input.value = student.name
+      li.insertBefore(input,li.childNodes[2])
+
+      li.querySelector('.student-name').style.display = 'none'
+    } else {
+      student.name = editField.value
+      li.querySelector('.student-name').textContent = editField.value
+      li.querySelector('.student-name').style.display = 'inline'
+      li.removeChild(editField)
+
+      this.save()
+    }
   }
 
   moveUp(student, ev) {
@@ -155,7 +181,6 @@ class Megaroster {
       this.students[index] = nextStudent
 
       this.save()
-      console.log(this.students)
     }
   }
 
